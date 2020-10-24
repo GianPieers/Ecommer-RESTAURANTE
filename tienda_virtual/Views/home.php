@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -23,11 +23,14 @@
       <li class="nav-item active">
         <a class="nav-link" href="<?php echo base_url();?>productos">Productos <span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="<?php echo base_url();?>usuarios">Usuarios <span class="sr-only">(current)</span></a>
+      </li>
       
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
     </form>
   </div>
 </nav>
@@ -39,26 +42,26 @@
   </ol>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="http://lorempixel.com/1200/400/food/" class="d-block w-100" alt="...">
+      <img src="<?php echo base_url();?>assets/images/1.jpg" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>dsdsdsdsdsdsdsd</p>
+        <h5>Chanho a la caja china</h5>
+        <p>Crujiente platillo con sabores por descubrir</p>
       </div>
     
     
     </div>
     <div class="carousel-item">
-      <img src="http://lorempixel.com/1200/400/food/" class="d-block w-100" alt="...">
+      <img src="<?php echo base_url();?>assets/images/2.jpg" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>dsdsdsdsdsdsdsd</p>
+        <h5>Pachamanca 3 sabores</h5>
+        <p>Disfrute de la pachamanca con carne de res, chancho y pollo</p>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="http://lorempixel.com/1200/400/food/" class="d-block w-100" alt="...">
+      <img src="<?php echo base_url();?>assets/images/3.jpg" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>dsdsdsdsdsdsdsd</p>
+        <h5>Chancho al palo</h5>
+        <p>Con la receta secreta de la familia, una delicia</p>
       </div>
     </div>
   </div>

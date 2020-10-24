@@ -1,6 +1,6 @@
 <?php
     //define("BASE_URL","http://localhost/tienda_virtual/");
-    const BASE_URL = "http://localhost:82/tienda_virtual/";
+    const BASE_URL = "http://localhost/tienda_virtual/";
     date_default_timezone_set('America/Lima');
     const DB_HOST ="localhost";
     const DB_NAME ="dbrestaurante";
