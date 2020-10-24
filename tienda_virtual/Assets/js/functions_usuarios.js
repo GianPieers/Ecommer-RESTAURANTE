@@ -1,4 +1,3 @@
-
 var tablaUsuarios;
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -13,9 +12,14 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns": [
-            { "data": "IDUsuario" },
-            { "data": "usuNombre" },
-            { "data": "usuPassword" },
+            { "data": "DNI" },
+            { "data": "usuNombres" },
+            { "data": "usuApPaterno" },
+            { "data": "usuApMaterno" },
+            { "data": "usuDireccion" },
+            { "data": "usuTelefono" },
+            { "data": "estado" },
+            { "data": "opciones" },
         ],
         "responsive":"true",
         "bDestroy": true,
@@ -23,23 +27,27 @@ document.addEventListener('DOMContentLoaded', function(){
         "order":[[0,"desc"]]
     });
 
-    //Nuevo rol
-    var formProducto = document.querySelector("#formUsuarios");
-    formProducto.onsubmit = function(e){
+    //Nuevo usuario
+    var formUsuario = document.querySelector("#formUsuario");
+    formUsuario.onsubmit = function(e){
         e.preventDefault();
         
-        var intIDProducto = document.querySelector('#IDUsuarios').value;
-        var strNombre = document.querySelector('#txtNombre').value;
-        var dblPrecio = document.querySelector('#txtPassword').value;
-        
-        if(strNombre == '' || intIDUsuario==0 || strusuPassword== '' )
+        var strDNI = document.querySelector('#txtDNI').value;
+        var strNombres = document.querySelector('#txtNombres').value;
+        var strApPaterno = document.querySelector('#txtApPaterno').value;
+        var strApMaterno = document.querySelector('#txtApMaterno').value;
+        var strDireccion = document.querySelector('#txtDireccion').value;
+        var strTelefono = document.querySelector('#txtTelefono').value;
+        var strPassword = document.querySelector('#txtPassword').value;
+
+        if(strDNI == '' || strNombres == '' || strApPaterno == '' || strDireccion == '' || strTelefono == 0 || strPassword == '')
         {
-            swal("Atención", "Todos los campos son obligatorios.", "error");
+            swal("Atención", "Rellene los campos obligatorios.", "error");
             return false;
         }
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = base_url+'Usuarios/setUsuarios';
-        var formData = new FormData(formProducto);
+        var ajaxUrl = base_url+'Usuarios/setUsuario';
+        var formData = new FormData(formUsuario);
         request.open("POST",ajaxUrl,true);
         request.send(formData);
         request.onreadystatechange = function(){
@@ -47,14 +55,14 @@ document.addEventListener('DOMContentLoaded', function(){
                 //console.log(request.responseText);
                 var objData = JSON.parse(request.responseText);
                 //console.log(objData);
-                if(objData.status)
-                {     //ModalFormAddProducto
-                    $('#modalFormAddUsu').modal("hide");
-                    formProducto.reset();
-                    swal("Usuarios a añadir", objData.msg ,"success");
-                    tableRoles.api().ajax.reload(function(){
-                        //fntEditProducto();
-                        //fntDelProducto();
+                if(objData.estado) //status
+                {
+                    $('#ModalFormUsuario').modal("hide");
+                    formUsuario.reset();
+                    swal("Usuarios a registrar", objData.msg ,"success");
+                    tablaUsuarios.api().ajax.reload(function(){
+                        fntEditUsuario();
+                        fntDelUsuario();
                     });
                 }else{
                     swal("Error", objData.msg , "error");
@@ -63,57 +71,66 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
     }
-});
+}, false);
 
-$('#tablaProductos').DataTable();
+$('#tablaUsuarios').DataTable();
+
+window.addEventListener('load', function(){
+    fntEditUsuario();
+    fntDelUsuario();
+}, false);
 
 function openModal(){
 
-    document.querySelector('#IDProducto').value = "";
+    document.querySelector('#txtDNI').value = "";
     document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
     document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary");
     document.querySelector('#btnText').innerHTML = "Guardar";
-    document.querySelector('#titleModal').innerHTML = "Nuevo Rol";
-    document.querySelector('#formProducto').reset();
+    document.querySelector('#titleModal').innerHTML = "Nuevo Usuario";
+    document.querySelector('#formUsuario').reset();
     
-    $('#ModalFormAddProd').modal('show'); //ModalFormAddProducto
+    $('#ModalFormUsuario').modal('show');
 }
 
-window.addEventListener('load', function(){
-    fntEditProducto();
-}, false);
-
-function fntEditProducto(){
-    console.log();
-    var btnEditProducto = document.querySelectorAll(".btnEditProducto");
-    btnEditProducto.forEach(function(btnEditProducto){
-        console.log();
-        btnEditProducto.addEventListener('click', function(){
-            document.querySelector('#titleModal').innerHTML = "Actualizar Rol";
+function fntEditUsuario(){
+    //console.log();
+    var btnEditUsuario = document.querySelectorAll(".btnEditUsuario");
+    btnEditUsuario.forEach(function(btnEditUsuario){
+        //console.log();
+        btnEditUsuario.addEventListener('click', function(){
+            
+            document.querySelector('#titleModal').innerHTML = "Actualizar Usuario";
             document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
             document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
             document.querySelector('#btnText').innerHTML = "Actualizar";
 
-            var idproducto = this.getAttribute("rl");
+            var dni = this.getAttribute("us");
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            var ajaxUrl = base_url+'Productos/getProducto/'+idproducto;
+            var ajaxUrl = base_url+'Usuarios/getUsuario/'+dni;
             request.open("GET",ajaxUrl,true);
             request.send();
 
             request.onreadystatechange = function(){
-                if(request.readyState == 4 && request.status == 200){
-                    console.log(request.responseText);
+                $('#ModalFormUsuario').modal('show');
+                if(request.readyState == 4 && request.status == 200){ //4
+                    //console.log(request.responseText);
                     var objData = JSON.parse(request.responseText);
 
                     if(objData.estado)
                     {
-                        document.querySelector("#IDProducto").value = objData.data.IDProducto;
-                        document.querySelector("#txtNombre").value = objData.data.proNombre;
-                        document.querySelector("#txtPrecio").value = objData.data.proPrecioPropuesto;
-                        document.querySelector("#txtStock").value = objData.data.proStock;
-                        document.querySelector("#listCategoria").value = objData.data.IDCategoria;
+                        var estadoUsuario = objData.data.status == 1 ?
+                            '<span class="badge badge-success">Activo</span>' :
+                            '<span class="badge badge-danger">Inactivo</span>';
+                        document.querySelector("#txtDNI").value = objData.data.DNI;
+                        document.querySelector("#txtNombres").value = objData.data.usuNombres;
+                        document.querySelector("#txtApPaterno").value = objData.data.usuApPaterno;
+                        document.querySelector("#txtApMaterno").value = objData.data.usuApMaterno;
+                        document.querySelector("#txtDireccion").value = objData.data.usuDireccion;
+                        document.querySelector("#txtTelefono").value = objData.data.usuTelefono;
+                        document.querySelector("#txtPassword").value = objData.data.usuPassword;
 
-                        if(objData.data.estado == 1)
+                        //no va porque no hay esa lista en nuestro form
+                        /*if(objData.data.estado == 1)
                         {
                             var optionSelect = '<option value="1" selected class="notBlock">Activo</option>';
                         }else{
@@ -124,15 +141,61 @@ function fntEditProducto(){
                                         <option value="1">Activo</option>
                                         <option value="1">Inactivo</option>
                                         `;
-                        //document.querySelector("#listStatus").innerHTML = htmlSelect;
-                        $('#ModalFormAddProd').modal('show');
+                        document.querySelector("#listStatus").innerHTML = htmlSelect;*/
+                        $('#ModalFormUsuario').modal('show');
                     }else{
                         swal("Error", objData.msg , "error");
                     }
                 }
             }
+        });
+    });
+}
 
-            //$('#ModalFormAddProd').modal('show'); //ModalFormAddProducto
+function fntDelUsuario(){
+    var btnDelUsuario = document.querySelectorAll(".btnDelUsuario")
+    btnDelUsuario.forEach(function(btnDelUsuario){
+        btnDelUsuario.addEventListener('click', function(){
+            var dni = this.getAttribute("us");
+            console.log(idproducto);
+            alert(idproducto);
+            swal({
+                title: "Eliminar Usuario",
+                text: "¿Realmente desa eliminar el usuario?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, eliminar!",
+                cancelButtonText: "No, cancelar!",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }, function(isConfirm){
+                if(isConfirm)
+                {
+                    var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                    var ajaxUrl = base_url+'Usuarios/delUsuario';
+                    var strData = "DNI="+dni;
+                    request.open("POST",ajaxUrl,true);
+                    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    request.send(strData);
+                    request.onreadystatechange = function(){
+                        if(request.readyState == 4 && request.status == 200){
+                            console.log(request.responseText);
+                            var objData = JSON.parse(request.responseText);
+                            console.log(objData);
+                            if(objData.status)
+                            {
+                                swal("Eliminar", objData.msg ,"success");
+                                tablaUsuarios.api().ajax.reload(function(){
+                                    fntEditUsuario();
+                                    fntDelUsuario();
+                                });
+                            }else{
+                                swal("Atención", objData.msg , "error");
+                            }
+                        }
+                    }
+                }
+            });
         });
     });
 }

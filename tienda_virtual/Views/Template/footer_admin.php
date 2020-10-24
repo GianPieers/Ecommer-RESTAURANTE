@@ -17,7 +17,13 @@
     <script type="text/javascript" src="<?= media(); ?>/js/plugins/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<?= media(); ?>/js/plugins/dataTables.bootstrap.min.js"></script>
 
-    <script src="<?= media(); ?>/js/functions_productos.js"></script>
+    <?php if($data['page_name'] == "productos"){ ?>
+      <script src="<?= media(); ?>/js/functions_productos.js"></script>
+    <?php } ?>
+
+    <?php if($data['page_name'] == "usuarios"){ ?>
+      <script src="<?= media(); ?>/js/functions_usuarios.js"></script>
+    <?php } ?>
 
   </body>
 </html>

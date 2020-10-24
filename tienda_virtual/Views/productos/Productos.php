@@ -2,6 +2,7 @@
   headerAdmin($data);
   getModal('modalsAdd',$data);
 ?>
+    <!-- <div id="contentAjax"></div> -->
     <main class="app-content">
       <div class="app-title">
         <div>

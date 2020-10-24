@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     swal("Productos a añadir", objData.msg ,"success");
                     tablaProductos.api().ajax.reload(function(){
                         fntEditProducto();
-                        //fntDelProducto();
+                        fntDelProducto();
                     });
                 }else{
                     swal("Error", objData.msg , "error");
