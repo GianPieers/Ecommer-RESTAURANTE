@@ -16,11 +16,7 @@
         }
         
         public function setUsuario(){
-            //dep($_POST);
             if($_POST){
-                echo $_POST['txtDNI'];
-                dep($_POST);
-                die();
                 if(empty($_POST['txtDNI']) || empty($_POST['txtNombres']) || empty($_POST['txtApPaterno']) ||
                     empty($_POST['txtDireccion']) || empty($_POST['txtTelefono']) || empty($_POST['txtPassword']))
                 {
@@ -33,24 +29,28 @@
                     $strDireccion = strClean($_POST['txtDireccion']);
                     $strTelefono = strClean($_POST['txtTelefono']);
                     $strPassword = strClean($_POST['txtPassword']);
+                    //$strPassword = hash("SHA256",$_POST['txtPassword']); //encrypta //v1
                     //https://youtu.be/yloI2aEnn3k?list=PL3b9xmg86NTKWP3Xzu-1DCwaeO5sftK4V&t=332
 
-                    $request_usuario = $this->model->insertUsuario($strDNI, $strNombres, $strApPaterno, $strApMaterno, $strDireccion, $strTelefono, $strPassword);
-
-                    if($strDNI =="")
+                    $arrData = $this->model->selectUsuario($strDNI);
+                    
+                    //us="'.$arrData[$i]['DNI'].'" -- $this->$_GET["DNI"] -- this.getAttribute("us")
+                    if($strDNI == $arrData['DNI'])
                     {
-                        $option = 1;
-                    }else{
                         $option = 2;
+                        $request_usuario = $this->model->updateUsuario($strDNI, $strNombres, $strApPaterno, $strApMaterno, $strDireccion, $strTelefono, $strPassword);
+                    }else{
+                        $option = 1;
+                        $request_usuario = $this->model->insertUsuario($strDNI, $strNombres, $strApPaterno, $strApMaterno, $strDireccion, $strTelefono, $strPassword);
                     }
-
-                    if($request_usuario >= 0)
+                    
+                    if($request_usuario > 0)
                     {
                         if($option == 1)
                         {
-                            $arrResponse = array('estado' => true, 'msg' => 'Datos guardados correctamente.');
+                            $arrResponse = array('status' => true, 'msg' => 'Datos guardados correctamente.');
                         }else{
-                            $arrResponse = array('estado' => true, 'msg' => 'Datos guardados correctamente.');
+                            $arrResponse = array('status' => true, 'msg' => 'Datos actualizados correctamente.');
                         }
                         
                     }else if($request_usuario == 'exist'){
@@ -58,50 +58,15 @@
                     }else{
                         $arrResponse = array('status' => false, 'msg' => 'No es posible almacenar los datos.');
                     }
-                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 }
             }
-            
-
-            /* $intIdproducto = intval($_POST['IDProducto']);
-            $strNombre = strClean($_POST['txtNombre']);
-            $dblPrecio = floatval($_POST['txtPrecio']);
-            $intStock = intval($_POST['txtStock']);
-            $intCategoria = intval($_POST['listCategoria']);
-
-            if($intIdproducto == 0)
-            {
-                //crea
-                $request_producto = $this->model->insertProducto($strNombre, $dblPrecio, $intStock, $intCategoria);
-                $option = 1;
-            }else{
-                //actualiza
-                $request_producto = $this->model->updateProducto($intIdproducto, $strNombre, $dblPrecio, $intStock, $intCategoria);
-                $option = 2;
-            }
-
-            if($request_producto > 0)
-            {
-                if($option == 1)
-                {
-                    $arrResponse = array('estado' => true, 'msg' => 'Datos guardados correctamente.');
-                }else{
-                    $arrResponse = array('estado' => true, 'msg' => 'Datos actualizados correctamente.');
-                }
-                
-            }else if($request_producto == 'exist'){
-                $arrResponse = array('status' => false, 'msg' => '!Atención¡ El Producto ya existe.');
-            }else{
-                $arrResponse = array('status' => false, 'msg' => 'No es posible almacenar los datos.');
-            }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE); */
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
 
         public function getUsuarios()
         {
             $arrData = $this->model->selectUsuarios();
-            //dep($arrData);
             
             for($i=0; $i<count($arrData); $i++){
                 if($arrData[$i]['estado'] == 1)
@@ -112,8 +77,8 @@
                 }
 
                 $arrData[$i]['opciones'] = '<div class="text-center">
-                    <button class="btn btn-secondary btn-sm btnEditUsuario" us="'.$arrData[$i]['DNI'].'" title="Editar"><i class="fa fa-pencil"></i></button>
-                    <button class="btn btn-danger btn-sm btnDelUsuario" us="'.$arrData[$i]['DNI'].'" title="Eliminar"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-secondary btn-sm btnEditUsuario" onClick="fntEditUsuario('.$arrData[$i]['DNI'].')" title="Editar"><i class="fa fa-pencil"></i></button>
+                    <button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['DNI'].')" title="Eliminar"><i class="fa fa-trash"></i></button>
                 </div>';
             }
 
