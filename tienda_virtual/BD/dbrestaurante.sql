@@ -25,8 +25,6 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_A_categoria` (`nombre` VARCHAR(50))  insert into categoria (catNombre)
-			values (nombre)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_A_cliente` (IN `dni` VARCHAR(8), IN `clinombre` VARCHAR(50), IN `cliappaterno` VARCHAR(50), IN `cliapmaterno` VARCHAR(50), IN `clidireccion` VARCHAR(50), IN `clicorreo` VARCHAR(50), IN `clicelular` VARCHAR(9), IN `clipassword` VARCHAR(50))  NO SQL
 insert into cliente (DNI,cliNombre,cliApPaterno,cliApMaterno,cliDireccion,cliCorreo,cliCelular,cliPassword) values (dni,clinombre,cliappaterno,cliapmaterno,clidireccion,clicorreo,clicelular,clipassword)$$
@@ -40,16 +38,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_A_producto` (`pronombre` VARCHAR
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_A_usuario` (IN `dni` VARCHAR(8), IN `usunombres` VARCHAR(50), IN `usuappaterno` VARCHAR(50), IN `usuapmaterno` VARCHAR(50), IN `usudireccion` VARCHAR(50), IN `usutelefono` VARCHAR(100), IN `usupassword` VARCHAR(15), IN `usucorreo` VARCHAR(50))  insert into usuario (DNI,usuNombres,usuApPaterno,usuApMaterno,usuDireccion,usuTelefono,usuPassword,usuCorreo) values (dni,usunombres,usuappaterno,usuapmaterno,usudireccion,usutelefono,usupassword,usucorreo)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_C_categoria` (`idCategoria` INT)  SELECT*FROM categoria WHERE IDCategoria=idCategoria$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_C_pedido` (IN `id` VARCHAR(11))  SELECT*FROM pedido WHERE IDPedido=id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_C_producto` (IN `idproducto` INT(11))  SELECT*FROM producto WHERE IDProducto = idproducto$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_C_usuario` (IN `dni` VARCHAR(8))  SELECT*FROM usuario WHERE DNI=dni$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_E_categoria` (`idCategoria` INT)  delete from categoria 
-    where IDCategoria=idCategoria$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_E_pedido` (IN `id` VARCHAR(11))  delete from pedido 
     where IDPedido=id$$
@@ -59,10 +52,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_E_producto` (`idproducto` INT)  
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_E_usuario` (`idusuario` INT)  delete from usuario 
     where IDUsuario=idusuario$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_M_categoria` (`nombre` VARCHAR(50), `idCategoria` INT)  update categoria set catNombre=nombre
-						
-				where IDCategoria=idCategoria$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_M_pedido` (`id` VARCHAR(11), `prec` FLOAT, `fecha` DATE, `dni` VARCHAR(8))  update pedido set pedPrecioTotal=prec,pedFecha=fecha,DNI=dni
 where IDPedido=id$$
