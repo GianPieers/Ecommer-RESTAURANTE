@@ -29,8 +29,8 @@
                 }
 
                 $arrData[$i]['opciones'] = '<div class="text-center">
-                    <button class="btn btn-secondary btn-sm btnEditProducto" rl="'.$arrData[$i]['IDProducto'].'" title="Editar"><i class="fa fa-pencil"></i></button>
-                    <button class="btn btn-danger btn-sm btnDelProducto" rl="'.$arrData[$i]['IDProducto'].'" title="Eliminar"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-secondary btn-sm btnEditProducto" onClick="fntEditProducto('.$arrData[$i]['IDProducto'].')" title="Editar"><i class="fa fa-pencil"></i></button>
+                    <button class="btn btn-danger btn-sm btnDelProducto" onClick="fntDelProducto('.$arrData[$i]['IDProducto'].')" title="Eliminar"><i class="fa fa-trash"></i></button>
                 </div>';
             }
 
@@ -74,13 +74,13 @@
                 $option = 2;
             }
 
-            if($request_producto > 0)
+            if($request_producto >= 0)
             {
                 if($option == 1)
                 {
-                    $arrResponse = array('estado' => true, 'msg' => 'Datos guardados correctamente.');
+                    $arrResponse = array('status' => true, 'msg' => 'Datos guardados correctamente.');
                 }else{
-                    $arrResponse = array('estado' => true, 'msg' => 'Datos actualizados correctamente.');
+                    $arrResponse = array('status' => true, 'msg' => 'Datos actualizados correctamente.');
                 }
                 
             }else if($request_producto == 'exist'){

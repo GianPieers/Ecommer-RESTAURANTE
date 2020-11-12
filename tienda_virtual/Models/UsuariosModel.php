@@ -12,7 +12,7 @@
 
         public function __construct()
         {
-           parent::__construct();//cargar el metodo contru de mysql
+           parent::__construct();//cargar el metodo construct de mysql
         }
         
         public function selectUsuarios()
@@ -23,7 +23,7 @@
             return $request;
         }
 
-        public function selectUsuario(int $dni)
+        public function selectUsuario(string $dni)
         {
             //buscar usuario
             $this->strDNI = $dni;
@@ -45,7 +45,7 @@
             $this->strPassword = $password;
             $return = 0;
 
-            //valida si ya existe un producto con el mismo nombre
+            //valida si ya existe un usuario con el mismo nombre
             $sql = "SELECT * FROM usuario WHERE DNI = '{$this->strDNI}'";
             //$sql = "CALL SP_C_usuario('{$this->strDNI}')";
             $request = $this->select_all($sql);
@@ -56,8 +56,7 @@
                 //$query_insert = "INSERT INTO usuario VALUES"
                 $arrData = array($this->strDNI, $this->strNombres, $this->strApPaterno, $this->strApMaterno, $this->strDireccion, $this->strTelefono, $this->strPassword);
                 $request_insert = $this->insert($query_insert,$arrData);
-                //return 1; //devuelve el mensaje correcto (producto añadido) pero da un error interno
-                return $request_insert;   //esto es la manera correcta pero devuelve el mensaje incorrecto
+                return $request_insert;
             }else{
                 $return = "exist";
             }
@@ -74,17 +73,23 @@
             $this->strTelefono = $telefono;
             $this->strPassword = $password;
 
-            $sql = "SELECT * FROM usuario WHERE DNI = '{$this->strDNI}' AND usuNombres != '{$this->strNombres}'";
-            $request = $this->select_all($sql);
-
-            if(empty($request))
-            {
-                $sql = "UPDATE usuario SET usuNombres = ?, usuApPaterno = ?, usuApMaterno = ?, usuDireccion = ?, usuTelefono = ?, usuPassword = ? WHERE DNI = '{$this->strDNI}'";
-                $arrData = array($this->strNombres, $this->strApPaterno, $this->strApMaterno, $this->strApMaterno, $this->strDireccion, $this->strTelefono, $this->strPassword);
+            //$sql = "SELECT * FROM usuario WHERE DNI = '{$this->strDNI}' AND usuNombres != '{$this->strNombres}'";
+            //$request = $this->select_all($sql);
+            
+            //if(empty($request))
+            //{                                                                                                     //para validar que no se repitan datos con otro usuario
+                /*if($this->strPassword != "")                                                                      //cuando se encripta el password y no encriptar lo encriptado
+                {
+                    $sql = "UPDATE usuario SET usuNombres = ?, usuApPaterno = ?, usuApMaterno = ?, usuDireccion = ?, usuTelefono = ? WHERE DNI = '{$this->strDNI}'";
+                    $arrData = array($this->strNombres, $this->strApPaterno, $this->strApMaterno, $this->strDireccion, $this->strTelefono);
+                }else{*/
+                    $sql = "UPDATE usuario SET usuNombres = ?, usuApPaterno = ?, usuApMaterno = ?, usuDireccion = ?, usuTelefono = ?, usuPassword = ? WHERE DNI = '{$this->strDNI}'";
+                    $arrData = array($this->strNombres, $this->strApPaterno, $this->strApMaterno, $this->strDireccion, $this->strTelefono, $this->strPassword);
+                //}
                 $request = $this->update($sql, $arrData);
-            }else{
+            /*}else{
                 $request = "exist";
-            }
+            }*/
 
             return $request;
         }
