@@ -75,7 +75,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_M_usuario` (IN `usunombre` VARCH
     set usuNombres=usunombres,usuPassword=usupassword
     where IDUsuario=idusuario$$
 														       
-CREATE PROCEDURE `SP_login`(IN `correo` VARCHAR(50), IN `password` VARCHAR(50), IN `estado` BOOLEAN) NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER SELECT usuCorreo, usuPassword WHERE estado != 0
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_login`(IN `correo` VARCHAR(50), IN `password` VARCHAR(50), IN `estado` BOOLEAN) NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER SELECT usuCorreo, usuPassword WHERE estado != 0
+    set usuCorreo=usucorreo,usuPassword=usupassword
+    where estado!=est
 
 DELIMITER ;
 
