@@ -18,8 +18,7 @@
         
         public function selectClientes()
         {
-            $sql = "SELECT * FROM cliente WHERE cliEstado != 0";  //inactivo=eliminado
-            //$sql = "CALL SP_C_cliente(0)";
+            $sql = "CALL SP_C_cliente(0)";
             $request = $this->select_all($sql);
             return $request;
         }
@@ -28,8 +27,7 @@
         {
             //buscar cliente
             $this->strDNI = $dni;
-            $sql = "SELECT * FROM cliente WHERE DNI = $this->strDNI";
-            //$sql = "CALL SP_C_cliente('{$this->strDNI}')";
+            $sql = "CALL SP_C_cliente('{$this->strDNI}')";
             $request = $this->select($sql);
 
             return $request;
