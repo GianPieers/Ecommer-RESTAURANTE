@@ -14,10 +14,8 @@
         
         public function selectPedidos()
         {
-            $sql = "SELECT * FROM pedido WHERE pedEstado != 0";  //inactivo=eliminado
-            //$sql = "CALL SP_C_producto(0)";
+            $sql = "CALL SP_C_producto(0)";
             $request = $this->select_all($sql);
-            //$request = "CALL SP_C_producto(?)";
             return $request;
         }
 
@@ -25,8 +23,7 @@
         {
             //buscar Pedido
             $this->intIDPedido = $IDPedido;
-            $sql = "SELECT * FROM pedido WHERE IDPedido = $this->intIDPedido";
-            //$sql = "CALL SP_C_producto($this->intIDProducto)";  no funca
+            $sql = "CALL SP_C_producto($this->intIDPedido)";
             $request = $this->select($sql);
 
             return $request;
