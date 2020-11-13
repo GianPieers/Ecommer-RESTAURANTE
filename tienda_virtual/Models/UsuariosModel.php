@@ -17,7 +17,6 @@
         
         public function selectUsuarios()
         {
-            //$sql = "SELECT * FROM usuario WHERE estado != 0";  //inactivo=eliminado
             $sql = "CALL SP_C_usuario(0)";
             $request = $this->select_all($sql);
             return $request;
@@ -27,8 +26,7 @@
         {
             //buscar usuario
             $this->strDNI = $dni;
-            $sql = "SELECT * FROM usuario WHERE DNI = $this->strDNI";
-            //$sql = "CALL SP_C_usuario('{$this->strDNI}')";
+            $sql = "CALL SP_C_usuario('{$this->strDNI}')";
             $request = $this->select($sql);
 
             return $request;
@@ -46,14 +44,12 @@
             $return = 0;
 
             //valida si ya existe un usuario con el mismo nombre
-            $sql = "SELECT * FROM usuario WHERE DNI = '{$this->strDNI}'";
-            //$sql = "CALL SP_C_usuario('{$this->strDNI}')";
+            $sql = "CALL SP_C_usuario('{$this->strDNI}')";
             $request = $this->select_all($sql);
 
             if(empty($request))
             {
                 $query_insert = "CALL SP_A_usuario(?,?,?,?,?,?,?)";
-                //$query_insert = "INSERT INTO usuario VALUES"
                 $arrData = array($this->strDNI, $this->strNombres, $this->strApPaterno, $this->strApMaterno, $this->strDireccion, $this->strTelefono, $this->strPassword);
                 $request_insert = $this->insert($query_insert,$arrData);
                 return $request_insert;
@@ -73,23 +69,9 @@
             $this->strTelefono = $telefono;
             $this->strPassword = $password;
 
-            //$sql = "SELECT * FROM usuario WHERE DNI = '{$this->strDNI}' AND usuNombres != '{$this->strNombres}'";
-            //$request = $this->select_all($sql);
-            
-            //if(empty($request))
-            //{                                                                                                     //para validar que no se repitan datos con otro usuario
-                /*if($this->strPassword != "")                                                                      //cuando se encripta el password y no encriptar lo encriptado
-                {
-                    $sql = "UPDATE usuario SET usuNombres = ?, usuApPaterno = ?, usuApMaterno = ?, usuDireccion = ?, usuTelefono = ? WHERE DNI = '{$this->strDNI}'";
-                    $arrData = array($this->strNombres, $this->strApPaterno, $this->strApMaterno, $this->strDireccion, $this->strTelefono);
-                }else{*/
-                    $sql = "UPDATE usuario SET usuNombres = ?, usuApPaterno = ?, usuApMaterno = ?, usuDireccion = ?, usuTelefono = ?, usuPassword = ? WHERE DNI = '{$this->strDNI}'";
-                    $arrData = array($this->strNombres, $this->strApPaterno, $this->strApMaterno, $this->strDireccion, $this->strTelefono, $this->strPassword);
-                //}
-                $request = $this->update($sql, $arrData);
-            /*}else{
-                $request = "exist";
-            }*/
+            $sql = "CALL SP_M_usuario(?,?,?,?,?,?,?)";
+            $arrData = array($this->strNombres, $this->strApPaterno, $this->strApMaterno, $this->strDireccion, $this->strTelefono, $this->strPassword, $this->strDNI);
+            $request = $this->update($sql, $arrData);
 
             return $request;
         }
@@ -98,24 +80,15 @@
         {
             $this->strdni = $dni;
 
-            //lo comentado es cuando otra tabla depende de esta (como categoria de producto)
-            //$sql = "SELECT * FROM producto WHERE IDProducto = $this->intIDProducto";
-            //$request = $this->select_all($sql);
-
-            //if(empty($request))
-            //{
-                $sql = "UPDATE usuario SET estado = ? WHERE DNI = $this->strdni";
-                $arrData = array(0);
-                $request = $this->update($sql, $arrData);
-                if($request)
-                {
-                    $request = 'ok';
-                }else{
-                    $request = 'error';
-                }
-            //}else{
-                //$request = "exist";
-            //}
+            $sql = "CALL SP_M_usuario(?,?)";
+            $arrData = array(0,$this->strdni);
+            $request = $this->update($sql, $arrData);
+            if($request)
+            {
+                $request = 'ok';
+            }else{
+                $request = 'error';
+            }
 
             return $request;
         }
