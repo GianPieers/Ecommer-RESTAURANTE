@@ -15,9 +15,8 @@
             {
                 $this->strUsuario = $usuario;
                 $this->strPassword = $password;
-                $sql = "SELECT DNI,cliEstado FROM cliente WHERE cliCorreo = '$this->strUsuario' and
-                 cliPassword = '$this->strPassword' and 
-                 cliEstado !=0 ";
+                $sql = "CALL SP_login(?,?)";
+                $arrdata = array('$this->strUsuario','$this->strPassword');
                 $request = $this->select($sql);
                 return $request;
                 }
