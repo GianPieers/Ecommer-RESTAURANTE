@@ -21,12 +21,12 @@
             $this->strPortada = $portada;
 
             //valida si ya existe un producto con el mismo nombre
-            $sql = "SELECT * FROM categoria WHERE catNombre = '{$this->strCategoria}'";
+            $sql = "CALL SP_C_producto('{$this->strCategoria}')";
             $request = $this->select_all($sql);
 
             if(empty($request))
             {
-                $query_insert = "INSERT INTO categoria(catNombre,catDescripcion,portada) VALUES(?,?,?)";//CALL SP_A_categoria(?,?,?)"
+                $query_insert = "CALL SP_A_categoria(?,?,?)";
                 //INSERT INTO categoria(catNombre,catDescripcion,portada) VALUES(nombre,descripcion,porta)
                 $arrData = array($this->strCategoria, $this->strDescripcion, $this->strPortada);
                 $request_insert = $this->insert($query_insert,$arrData);
