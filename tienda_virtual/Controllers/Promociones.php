@@ -13,9 +13,6 @@
 
         public function promociones()
         {
-            /*if(empty($_SESSION['permisosMod']['r'])){
-                header("Location:".base_url().'dashboard');
-            }*/
             $data['page_tag']="Promociones";
             $data['page_title']="Promociones de venta <small>Tienda virtual</small>";
             $data['page_name']="promociones";
