@@ -17,35 +17,7 @@
       <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <style id="compiled-css" type="text/css">
-      /*
-*
-* ==========================================
-* FOR DEMO PURPOSES
-* ==========================================
-*
-*/
-
-/*.social-link {
-  width: 30px;
-  height: 30px;
-  border: 1px solid #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-  border-radius: 50%;
-  transition: all 0.3s;
-  font-size: 0.9rem;
-}
-
-.social-link:hover,
-.social-link:focus {
-  background: #ddd;
-  text-decoration: none;
-  color: #555;
-}
-
-    /* EOS */
+      
   </style>
 
   <script id="insert"></script>
