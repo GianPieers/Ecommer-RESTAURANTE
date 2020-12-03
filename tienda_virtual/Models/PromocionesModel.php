@@ -36,8 +36,7 @@
             $this->intStock = $stock;
             $this->intProducto = $idproducto;
 
-            //valida si ya existe un producto con el mismo nombre
-            $sql = "SELECT * FROM promocion WHERE promNombre = '{$this->strNombre}'";
+            $sql = "CALL SP_C_promocion('{$this->strNombre}')";
             $request = $this->select_all($sql);
 
             if(empty($request))
