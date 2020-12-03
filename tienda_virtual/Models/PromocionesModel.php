@@ -15,34 +15,17 @@
         
         public function selectPromociones()
         {
-            $sql = "SELECT * FROM promocion WHERE promEstado = 1 OR promEstado = 0";  //inactivo=eliminado
-            //$sql = "CALL SP_C_promocion(0)";
+            $sql = "CALL SP_C_promocion(0)";
             $request = $this->select_all($sql);
-            //$request = "CALL SP_C_producto(?)";
             return $request;
         }
 
         public function selectPromocion(int $IDPromocion)
         {
-            /*$mysqli = new mysqli("","root","","dbrestaurante");
-            if ($mysqli->connect_errno) {
-                echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-            }*/
-            //buscar producto
             $this->intIDPromocion = $IDPromocion;
-            $sql = "SELECT * FROM promocion WHERE IDPromocion = $this->intIDPromocion";
-            //$sql = "CALL SP_C_producto('{$this->intIDProducto}')";
-            /*if($mysqli->query("CALL SP_C_producto(".$this->intIDProducto.")")){
-                echo "CALL failed: (" . $mysqli->errno . ") " . $mysqli->error;
-            }*/
-            
+            $sql = "CALL SP_C_producto('{$this->intIDProducto}')";
             $request = $this->select($sql);
-
             return $request;
-            /*$query_insert = "CALL SP_A_usuario(?,?)";
-            $arrData = array($nombre, $edad);
-            $request_insert = $this->insert($query_insert,$arrData);
-            return $request_insert;*/
         }
 
         public function insertPromocion(string $nombre, float $precio, int $stock, int $idproducto)
